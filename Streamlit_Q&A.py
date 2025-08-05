@@ -34,9 +34,11 @@ Resume:
 
 Return only the list of questions in bullet points.
 """
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}]
+    client = OpenAI(api_key=st.secrets["openai"]["api_key"])
+
+    response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content.strip()
 
