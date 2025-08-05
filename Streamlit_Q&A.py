@@ -15,7 +15,6 @@ import os
 st.set_page_config(page_title="AI Interview Bot", layout="centered")
 openai.api_key = st.secrets["openai"]["api_key"]
 
-
 def extract_text_from_resume(file):
     with open("temp_resume.pdf", "wb") as f:
         f.write(file.read())
