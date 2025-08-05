@@ -23,6 +23,9 @@ def extract_text_from_resume(file):
     return "\n".join(page.get_text() for page in doc)
 
 # ================== Helper: Generate questions ==================
+from openai import OpenAI, RateLimitError
+import time
+
 def generate_questions(resume_text, jd_text):
     prompt = f"""
 You are an intelligent interview bot. Based on the job description and resume, generate 5 technical and 3 behavioral interview questions.
@@ -35,13 +38,18 @@ Resume:
 
 Return only the list of questions in bullet points.
 """
+
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
-    response = client.chat.completions.create(
-        model = "gpt-4o",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content.strip()
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content.strip()
+
+    except RateLimitError:
+        return "⚠️ You're being rate-limited by OpenAI. Please wait 1–2 minutes and try again."
 
 st.title("🤖 AI Video Interview Question Generator")
 
