@@ -13,7 +13,8 @@ import fitz  # PyMuPDF
 import os
 
 st.set_page_config(page_title="AI Interview Bot", layout="centered")
-openai.api_key = "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"  # Replace with your OpenAI key
+openai.api_key = st.secrets["openai"]["api_key"]
+
 
 def extract_text_from_resume(file):
     with open("temp_resume.pdf", "wb") as f:
