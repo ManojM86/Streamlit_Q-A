@@ -11,6 +11,7 @@ import streamlit as st
 import openai
 import fitz  # PyMuPDF
 import os
+from openai import OpenAI
 
 st.set_page_config(page_title="AI Interview Bot", layout="centered")
 openai.api_key = st.secrets["openai"]["api_key"]
@@ -37,8 +38,8 @@ Return only the list of questions in bullet points.
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
     response = client.chat.completions.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": prompt}]
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content.strip()
 
